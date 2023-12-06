@@ -1,0 +1,27 @@
+use jrtp;
+show tables;
+
+select count(*) from user_dtls;
+select count(*) from gift_vocher_entity;
+
+select * from gift_vocher_entity;
+select count(*) from gift_vocher_entity where GIFT_VOCHER_STATUS='Pending';
+
+
+truncate gift_vocher_entity;
+
+call insertRowsToGiftVocherTriggers;
+
+
+DROP PROCEDURE IF EXISTS insertRowsToGiftVocherTriggers;
+DELIMITER //
+CREATE PROCEDURE insertRowsToGiftVocherTriggers()
+BEGIN
+DECLARE i INT DEFAULT 1;
+WHILE(i <= 5000) DO
+	INSERT INTO  GIFT_VOCHER_ENTITY  (ID, GIFT_NUM,GIFT_VOCHER_STATUS) values(i,i,'Pending');
+	SET i = i+1;
+END WHILE;
+END;
+//
+DELIMITER ;
